@@ -1,7 +1,7 @@
 /** Naivas promo config — update the WhatsApp link to your real group invite */
 window.NAIVAS_PROMO = {
   /** Paste your WhatsApp group invite link here */
-  whatsappGroupUrl: "https://chat.whatsapp.com/YourGroupInviteCode",
+  whatsappGroupUrl: "https://chat.whatsapp.com/GtaDYdVWGjJF8u9yJDkyVQ",
   rewards: [
     { label: "KSh 500 Off", color: "#F36C00", text: "#fff" },
     { label: "Free Delivery", color: "#1FAA4A", text: "#fff" },
