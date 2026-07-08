@@ -3,7 +3,7 @@ services:
     name: naivas-promo
     runtime: static
     repo: https://github.com/charlesnduya-png/naivas-promo
-    branch: main
+    branch: master
     buildCommand: "echo Static site ready"
     staticPublishPath: .
     autoDeployTrigger: commit
