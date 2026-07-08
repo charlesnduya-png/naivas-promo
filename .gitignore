@@ -1,0 +1,5 @@
+# Naivas promo site
+.DS_Store
+Thumbs.db
+node_modules/
+.cursor/
