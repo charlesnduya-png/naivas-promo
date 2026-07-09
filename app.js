@@ -46,11 +46,8 @@
 
   function normalizePhone(raw) {
     const digits = String(raw).replace(/\D/g, "");
-    if (/^07\d{8}$/.test(digits)) return `254${digits.slice(1)}`;
     if (/^7\d{8}$/.test(digits)) return `254${digits}`;
     if (/^2547\d{8}$/.test(digits)) return digits;
-    if (/^01\d{8}$/.test(digits)) return `254${digits.slice(1)}`;
-    if (/^1\d{8}$/.test(digits)) return `254${digits}`;
     return null;
   }
 
@@ -179,8 +176,11 @@
 
   phoneInput.addEventListener("input", () => {
     phoneError.hidden = true;
-    // keep digits and spaces only while typing
-    phoneInput.value = phoneInput.value.replace(/[^\d\s]/g, "");
+    let digits = phoneInput.value.replace(/\D/g, "");
+    if (digits.startsWith("254")) digits = digits.slice(3);
+    if (digits.startsWith("0")) digits = digits.replace(/^0+/, "");
+    if (digits.length > 0 && !digits.startsWith("7")) digits = "";
+    phoneInput.value = digits.slice(0, 9);
   });
 
   phoneForm.addEventListener("submit", (e) => {
@@ -188,7 +188,7 @@
     const normalized = normalizePhone(phoneInput.value);
     if (!normalized) {
       phoneError.textContent =
-        "Enter a valid Kenyan mobile (e.g. 0712 345 678).";
+        "Enter a valid number starting with 7 (e.g. 712 345 678).";
       phoneError.hidden = false;
       phoneInput.focus();
       return;
