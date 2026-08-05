@@ -11,17 +11,15 @@
   const spinBtn = document.getElementById("spinBtn");
   const rewardName = document.getElementById("rewardName");
   const whatsappBtn = document.getElementById("whatsappBtn");
-  const joinWhatsappBtn = document.getElementById("joinWhatsappBtn");
-  const joinLotteryBtn = document.getElementById("joinLotteryBtn");
   const canvas = document.getElementById("wheel");
   const ctx = canvas.getContext("2d");
 
-  if (joinWhatsappBtn && whatsappGroupUrl) {
-    joinWhatsappBtn.href = whatsappGroupUrl;
-  }
-  if (joinLotteryBtn && lotteryUrl) {
-    joinLotteryBtn.href = lotteryUrl;
-  }
+  document.querySelectorAll(".js-join-whatsapp").forEach((el) => {
+    if (whatsappGroupUrl) el.href = whatsappGroupUrl;
+  });
+  document.querySelectorAll(".js-join-lottery").forEach((el) => {
+    if (lotteryUrl) el.href = lotteryUrl;
+  });
 
   let phoneE164 = "";
   let spinning = false;
