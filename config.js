@@ -1,7 +1,7 @@
 /** Naivas promo config — update the WhatsApp link to your real group invite */
 window.NAIVAS_PROMO = {
   /** Paste your WhatsApp group invite link here */
-  whatsappGroupUrl: "https://chat.whatsapp.com/GtaDYdVWGjJF8u9yJDkyVQ",
+  whatsappGroupUrl: "https://chat.whatsapp.com/GtaDYdVWGjJF8u9yJDkyVQ?s=cl&p=a&ilr=1",
   /** Lottery join link (WhatsApp group or lottery page) */
   lotteryUrl: "https://boda.ke/",
   rewards: [
