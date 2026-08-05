@@ -2,6 +2,8 @@
 window.NAIVAS_PROMO = {
   /** Paste your WhatsApp group invite link here */
   whatsappGroupUrl: "https://chat.whatsapp.com/GtaDYdVWGjJF8u9yJDkyVQ",
+  /** Lottery join link (WhatsApp group or lottery page) */
+  lotteryUrl: "https://chat.whatsapp.com/GtaDYdVWGjJF8u9yJDkyVQ",
   rewards: [
     { label: "KSh 500 Off", color: "#F36C00", text: "#fff" },
     { label: "Free Delivery", color: "#1FAA4A", text: "#fff" },

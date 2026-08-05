@@ -444,6 +444,36 @@ a {
   color: var(--muted);
 }
 
+.promo-block {
+  margin-top: 1.25rem;
+  padding-top: 1.15rem;
+  border-top: 1px solid var(--line);
+}
+
+.promo-banner {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  margin-bottom: 0.85rem;
+}
+
+.promo-actions {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.btn-lottery {
+  color: #12140f;
+  background: linear-gradient(135deg, #ffd54a 0%, #f36c00 100%);
+  box-shadow: 0 12px 32px rgba(243, 108, 0, 0.28);
+  font-weight: 700;
+}
+
+.btn-lottery:hover {
+  filter: brightness(1.04);
+}
+
 @keyframes float {
   0%,
   100% {
