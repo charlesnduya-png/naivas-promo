@@ -450,6 +450,18 @@ a {
   border-top: 1px solid var(--line);
 }
 
+.promo-block-home {
+  margin: 0 0 1.5rem;
+  padding: 0;
+  border: 0;
+  text-align: left;
+}
+
+.promo-block-home .promo-banner {
+  margin-bottom: 0.75rem;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+}
+
 .promo-banner {
   display: block;
   width: 100%;
