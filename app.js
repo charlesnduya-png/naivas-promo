@@ -14,11 +14,19 @@
   const canvas = document.getElementById("wheel");
   const ctx = canvas.getContext("2d");
 
+  function track(eventName, params = {}) {
+    if (typeof window.gtag === "function") {
+      window.gtag("event", eventName, params);
+    }
+  }
+
   document.querySelectorAll(".js-join-whatsapp").forEach((el) => {
     if (whatsappGroupUrl) el.href = whatsappGroupUrl;
+    el.addEventListener("click", () => track("join_whatsapp"));
   });
   document.querySelectorAll(".js-join-lottery").forEach((el) => {
     if (lotteryUrl) el.href = lotteryUrl;
+    el.addEventListener("click", () => track("join_lottery"));
   });
 
   let phoneE164 = "";
@@ -39,6 +47,7 @@
   }
 
   function openOverlay() {
+    track("claim_prize_click");
     overlay.hidden = false;
     document.body.style.overflow = "hidden";
     showPanel("phone");
@@ -115,6 +124,7 @@
 
   function spinWheel() {
     if (spinning) return;
+    track("spin_wheel");
     spinning = true;
     spinBtn.disabled = true;
     spinBtn.textContent = "Spinning…";
