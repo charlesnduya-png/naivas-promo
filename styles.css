@@ -230,6 +230,7 @@ a {
 
 .money-bag-icon {
   flex-shrink: 0;
+  display: block;
 }
 
 .btn-whatsapp {
