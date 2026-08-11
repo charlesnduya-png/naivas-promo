@@ -222,6 +222,16 @@ a {
   width: 100%;
 }
 
+.btn-collect {
+  font-size: 1.12rem;
+  font-weight: 700;
+  gap: 0.65rem;
+}
+
+.money-bag-icon {
+  flex-shrink: 0;
+}
+
 .btn-whatsapp {
   color: #fff;
   background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
