@@ -32,11 +32,6 @@
     const track = document.createElement("div");
     track.className = "banner-carousel__track";
 
-    const dots = document.createElement("div");
-    dots.className = "banner-carousel__dots";
-    dots.setAttribute("role", "tablist");
-    dots.setAttribute("aria-label", "Banner slides");
-
     const chevron = (dir) =>
       `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="${
         dir === "prev"
@@ -58,11 +53,10 @@
 
     const slides = banners.map((banner, i) => {
       const slide = document.createElement("div");
-      slide.className = "banner-carousel__slide" + (i === 0 ? " is-active" : "");
+      slide.className = "banner-carousel__slide";
       slide.setAttribute("role", "group");
       slide.setAttribute("aria-roledescription", "slide");
       slide.setAttribute("aria-label", `${i + 1} of ${banners.length}`);
-      slide.setAttribute("aria-hidden", i === 0 ? "false" : "true");
 
       const img = document.createElement("img");
       img.src = banner.src;
@@ -74,69 +68,46 @@
       slide.appendChild(img);
       track.appendChild(slide);
 
-      const dot = document.createElement("button");
-      dot.type = "button";
-      dot.className = "banner-carousel__dot" + (i === 0 ? " is-active" : "");
-      dot.setAttribute("aria-label", `Show banner ${i + 1}`);
-      dots.appendChild(dot);
-
-      return { slide, dot };
+      return { slide };
     });
 
     root.appendChild(track);
     root.appendChild(prevBtn);
     root.appendChild(nextBtn);
-    root.appendChild(dots);
 
     let index = 0;
     let timer = null;
     let animating = false;
-    const SLIDE_MS = 750;
+    const SLIDE_MS = 700;
 
-    function clearMotion(slide) {
-      slide.classList.remove(
-        "is-active",
-        "is-leaving-left",
-        "is-leaving-right",
-        "is-enter-left",
-        "is-enter-right"
-      );
+    function layout() {
+      const prev = (index - 1 + slides.length) % slides.length;
+      const next = (index + 1) % slides.length;
+
+      slides.forEach(({ slide }, i) => {
+        slide.classList.remove("is-active", "is-prev", "is-next");
+        if (i === index) {
+          slide.classList.add("is-active");
+          slide.setAttribute("aria-hidden", "false");
+        } else if (i === prev) {
+          slide.classList.add("is-prev");
+          slide.setAttribute("aria-hidden", "true");
+        } else if (i === next) {
+          slide.classList.add("is-next");
+          slide.setAttribute("aria-hidden", "true");
+        } else {
+          slide.setAttribute("aria-hidden", "true");
+        }
+      });
     }
 
-    function goTo(next, direction) {
+    function goTo(next) {
       const target = (next + slides.length) % slides.length;
       if (target === index || animating) return;
-
-      const forward =
-        direction === "next" ||
-        (direction !== "prev" &&
-          (target === (index + 1) % slides.length ||
-            (target > index && !(index === 0 && target === slides.length - 1))));
-
-      const current = slides[index];
-      const upcoming = slides[target];
-
       animating = true;
-
-      clearMotion(upcoming.slide);
-      upcoming.slide.classList.add(forward ? "is-enter-right" : "is-enter-left");
-      void upcoming.slide.offsetWidth;
-
-      current.slide.classList.remove("is-active");
-      current.slide.classList.add(forward ? "is-leaving-left" : "is-leaving-right");
-      current.slide.setAttribute("aria-hidden", "true");
-      current.dot.classList.remove("is-active");
-
-      upcoming.slide.classList.remove("is-enter-left", "is-enter-right");
-      upcoming.slide.classList.add("is-active");
-      upcoming.slide.setAttribute("aria-hidden", "false");
-      upcoming.dot.classList.add("is-active");
-
       index = target;
-
+      layout();
       window.setTimeout(() => {
-        clearMotion(current.slide);
-        upcoming.slide.classList.add("is-active");
         animating = false;
       }, SLIDE_MS);
     }
@@ -144,7 +115,7 @@
     function start() {
       stop();
       if (slides.length < 2) return;
-      timer = setInterval(() => goTo(index + 1, "next"), bannerRotateMs);
+      timer = setInterval(() => goTo(index + 1), bannerRotateMs);
     }
 
     function stop() {
@@ -152,18 +123,18 @@
       timer = null;
     }
 
-    function manual(next, direction) {
-      goTo(next, direction);
+    function manual(next) {
+      goTo(next);
       start();
     }
 
-    prevBtn.addEventListener("click", () => manual(index - 1, "prev"));
-    nextBtn.addEventListener("click", () => manual(index + 1, "next"));
+    prevBtn.addEventListener("click", () => manual(index - 1));
+    nextBtn.addEventListener("click", () => manual(index + 1));
 
-    slides.forEach(({ dot }, i) => {
-      dot.addEventListener("click", () => {
-        const direction = i > index || (index === slides.length - 1 && i === 0) ? "next" : "prev";
-        manual(i, direction);
+    slides.forEach(({ slide }, i) => {
+      slide.addEventListener("click", () => {
+        if (slide.classList.contains("is-prev")) manual(index - 1);
+        else if (slide.classList.contains("is-next")) manual(index + 1);
       });
     });
 
@@ -172,6 +143,7 @@
     root.addEventListener("focusin", stop);
     root.addEventListener("focusout", start);
 
+    layout();
     start();
   }
 
