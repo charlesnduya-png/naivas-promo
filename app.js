@@ -37,6 +37,25 @@
     dots.setAttribute("role", "tablist");
     dots.setAttribute("aria-label", "Banner slides");
 
+    const chevron = (dir) =>
+      `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="${
+        dir === "prev"
+          ? "M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"
+          : "M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+      }"/></svg>`;
+
+    const prevBtn = document.createElement("button");
+    prevBtn.type = "button";
+    prevBtn.className = "banner-carousel__arrow banner-carousel__arrow--prev";
+    prevBtn.setAttribute("aria-label", "Previous banner");
+    prevBtn.innerHTML = chevron("prev");
+
+    const nextBtn = document.createElement("button");
+    nextBtn.type = "button";
+    nextBtn.className = "banner-carousel__arrow banner-carousel__arrow--next";
+    nextBtn.setAttribute("aria-label", "Next banner");
+    nextBtn.innerHTML = chevron("next");
+
     const slides = banners.map((banner, i) => {
       const slide = document.createElement("div");
       slide.className = "banner-carousel__slide" + (i === 0 ? " is-active" : "");
@@ -65,50 +84,67 @@
     });
 
     root.appendChild(track);
+    root.appendChild(prevBtn);
+    root.appendChild(nextBtn);
     root.appendChild(dots);
 
     let index = 0;
     let timer = null;
     let animating = false;
+    const SLIDE_MS = 750;
 
-    function goTo(next) {
+    function clearMotion(slide) {
+      slide.classList.remove(
+        "is-active",
+        "is-leaving-left",
+        "is-leaving-right",
+        "is-enter-left",
+        "is-enter-right"
+      );
+    }
+
+    function goTo(next, direction) {
       const target = (next + slides.length) % slides.length;
       if (target === index || animating) return;
 
-      const goingForward =
-        target === (index + 1) % slides.length ||
-        (target > index && !(index === 0 && target === slides.length - 1));
+      const forward =
+        direction === "next" ||
+        (direction !== "prev" &&
+          (target === (index + 1) % slides.length ||
+            (target > index && !(index === 0 && target === slides.length - 1))));
 
       const current = slides[index];
       const upcoming = slides[target];
 
       animating = true;
+
+      clearMotion(upcoming.slide);
+      upcoming.slide.classList.add(forward ? "is-enter-right" : "is-enter-left");
+      void upcoming.slide.offsetWidth;
+
       current.slide.classList.remove("is-active");
-      current.slide.classList.add("is-leaving");
+      current.slide.classList.add(forward ? "is-leaving-left" : "is-leaving-right");
       current.slide.setAttribute("aria-hidden", "true");
       current.dot.classList.remove("is-active");
 
-      upcoming.slide.classList.remove("is-leaving", "is-from-left");
-      if (!goingForward) upcoming.slide.classList.add("is-from-left");
-      // force reflow so incoming starts off-screen before becoming active
-      void upcoming.slide.offsetWidth;
+      upcoming.slide.classList.remove("is-enter-left", "is-enter-right");
       upcoming.slide.classList.add("is-active");
-      upcoming.slide.classList.remove("is-from-left");
       upcoming.slide.setAttribute("aria-hidden", "false");
       upcoming.dot.classList.add("is-active");
 
       index = target;
 
       window.setTimeout(() => {
-        current.slide.classList.remove("is-leaving");
+        clearMotion(current.slide);
+        upcoming.slide.classList.add("is-active");
         animating = false;
-      }, 1100);
+      }, SLIDE_MS);
     }
 
     function start() {
       stop();
       if (slides.length < 2) return;
-      timer = setInterval(() => goTo(index + 1), bannerRotateMs);
+      timer = setInterval(() => goTo(index + 1, "next"), bannerRotateMs);
     }
 
     function stop() {
@@ -116,10 +152,18 @@
       timer = null;
     }
 
+    function manual(next, direction) {
+      goTo(next, direction);
+      start();
+    }
+
+    prevBtn.addEventListener("click", () => manual(index - 1, "prev"));
+    nextBtn.addEventListener("click", () => manual(index + 1, "next"));
+
     slides.forEach(({ dot }, i) => {
       dot.addEventListener("click", () => {
-        goTo(i);
-        start();
+        const direction = i > index || (index === slides.length - 1 && i === 0) ? "next" : "prev";
+        manual(i, direction);
       });
     });
 
