@@ -12,6 +12,10 @@ window.NAIVAS_PROMO = {
       alt: "Soccer.co.ke — World Cup Fever 2026",
     },
     {
+      src: "banner-soccer-co-ke-2.png",
+      alt: "Soccer.co.ke — your home of football, World Cup coverage",
+    },
+    {
       src: "banner-pilot-ke.png",
       alt: "Pilot.ke — real time Aviator statistics",
     },
