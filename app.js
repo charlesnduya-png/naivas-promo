@@ -43,7 +43,7 @@
       slide.setAttribute("role", "group");
       slide.setAttribute("aria-roledescription", "slide");
       slide.setAttribute("aria-label", `${i + 1} of ${banners.length}`);
-      slide.hidden = i !== 0;
+      slide.setAttribute("aria-hidden", i === 0 ? "false" : "true");
 
       const img = document.createElement("img");
       img.src = banner.src;
@@ -69,15 +69,40 @@
 
     let index = 0;
     let timer = null;
+    let animating = false;
 
     function goTo(next) {
-      slides[index].slide.classList.remove("is-active");
-      slides[index].slide.hidden = true;
-      slides[index].dot.classList.remove("is-active");
-      index = (next + slides.length) % slides.length;
-      slides[index].slide.classList.add("is-active");
-      slides[index].slide.hidden = false;
-      slides[index].dot.classList.add("is-active");
+      const target = (next + slides.length) % slides.length;
+      if (target === index || animating) return;
+
+      const goingForward =
+        target === (index + 1) % slides.length ||
+        (target > index && !(index === 0 && target === slides.length - 1));
+
+      const current = slides[index];
+      const upcoming = slides[target];
+
+      animating = true;
+      current.slide.classList.remove("is-active");
+      current.slide.classList.add("is-leaving");
+      current.slide.setAttribute("aria-hidden", "true");
+      current.dot.classList.remove("is-active");
+
+      upcoming.slide.classList.remove("is-leaving", "is-from-left");
+      if (!goingForward) upcoming.slide.classList.add("is-from-left");
+      // force reflow so incoming starts off-screen before becoming active
+      void upcoming.slide.offsetWidth;
+      upcoming.slide.classList.add("is-active");
+      upcoming.slide.classList.remove("is-from-left");
+      upcoming.slide.setAttribute("aria-hidden", "false");
+      upcoming.dot.classList.add("is-active");
+
+      index = target;
+
+      window.setTimeout(() => {
+        current.slide.classList.remove("is-leaving");
+        animating = false;
+      }, 1100);
     }
 
     function start() {

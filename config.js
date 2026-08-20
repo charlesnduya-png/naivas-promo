@@ -5,7 +5,7 @@ window.NAIVAS_PROMO = {
   /** Lottery join link (WhatsApp group or lottery page) */
   lotteryUrl: "https://boda.ke/",
   /** Rotating promo banners (ms between slides) */
-  bannerRotateMs: 4000,
+  bannerRotateMs: 4500,
   banners: [
     {
       src: "banner-janta-pool.png",
