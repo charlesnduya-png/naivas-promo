@@ -8,24 +8,28 @@ window.NAIVAS_PROMO = {
   bannerRotateMs: 4000,
   banners: [
     {
-      src: "banner-soccer-co-ke.png",
-      alt: "Soccer.co.ke — World Cup Fever 2026",
-    },
-    {
-      src: "banner-soccer-co-ke-2.png",
-      alt: "Soccer.co.ke — your home of football, World Cup coverage",
-    },
-    {
-      src: "banner-pilot-ke.png",
-      alt: "Pilot.ke — real time Aviator statistics",
+      src: "banner-janta-pool.png",
+      alt: "Janta.top — free pool, message me and play",
     },
     {
       src: "banner-janta-freebet.png",
       alt: "Janta.ke — get up to 100 KES freebet",
     },
     {
+      src: "banner-pilot-ke.png",
+      alt: "Pilot.ke — real time Aviator statistics",
+    },
+    {
       src: "banner-janta-lottery.png",
       alt: "Janta.ke Online WhatsApp Lottery — special rewards and weekly draws",
+    },
+    {
+      src: "banner-soccer-co-ke.png",
+      alt: "Soccer.co.ke — World Cup Fever 2026",
+    },
+    {
+      src: "banner-janta-play.png",
+      alt: "Janta.ke — play, win, get paid",
     },
   ],
   rewards: [

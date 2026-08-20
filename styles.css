@@ -513,7 +513,7 @@ a {
   margin: 0 auto 0.85rem;
   border-radius: 12px;
   overflow: hidden;
-  aspect-ratio: 1024 / 374;
+  aspect-ratio: 1024 / 576;
   background: rgba(0, 0, 0, 0.12);
 }
 

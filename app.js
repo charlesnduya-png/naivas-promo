@@ -49,7 +49,7 @@
       img.src = banner.src;
       img.alt = banner.alt || "";
       img.width = 1024;
-      img.height = 374;
+      img.height = 576;
       img.decoding = "async";
       if (i > 0) img.loading = "lazy";
       slide.appendChild(img);
