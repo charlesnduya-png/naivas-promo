@@ -4,6 +4,26 @@ window.NAIVAS_PROMO = {
   whatsappGroupUrl: "https://chat.whatsapp.com/GtaDYdVWGjJF8u9yJDkyVQ?s=cl&p=a&ilr=1",
   /** Lottery join link (WhatsApp group or lottery page) */
   lotteryUrl: "https://boda.ke/",
+  /** Rotating promo banners (ms between slides) */
+  bannerRotateMs: 4000,
+  banners: [
+    {
+      src: "banner-janta-lottery.png",
+      alt: "Janta.ke Online WhatsApp Lottery — special rewards and weekly draws",
+    },
+    {
+      src: "banner-pilot-ke.png",
+      alt: "Pilot.ke — real time Aviator statistics",
+    },
+    {
+      src: "banner-janta-freebet.png",
+      alt: "Janta.ke — get up to 100 KES freebet",
+    },
+    {
+      src: "janta-rewards-banner.png",
+      alt: "Janta.ke rewards — fair random shuffle draws",
+    },
+  ],
   rewards: [
     { label: "KSh 500 Off", color: "#F36C00", text: "#fff" },
     { label: "Free Delivery", color: "#1FAA4A", text: "#fff" },

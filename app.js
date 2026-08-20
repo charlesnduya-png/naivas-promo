@@ -1,5 +1,11 @@
 (() => {
-  const { rewards, whatsappGroupUrl, lotteryUrl } = window.NAIVAS_PROMO;
+  const {
+    rewards,
+    whatsappGroupUrl,
+    lotteryUrl,
+    banners = [],
+    bannerRotateMs = 4000,
+  } = window.NAIVAS_PROMO;
 
   const overlay = document.getElementById("overlay");
   const openClaim = document.getElementById("openClaim");
@@ -19,6 +25,88 @@
       window.gtag("event", eventName, params);
     }
   }
+
+  function initBannerCarousel(root) {
+    if (!banners.length) return;
+
+    const track = document.createElement("div");
+    track.className = "banner-carousel__track";
+
+    const dots = document.createElement("div");
+    dots.className = "banner-carousel__dots";
+    dots.setAttribute("role", "tablist");
+    dots.setAttribute("aria-label", "Banner slides");
+
+    const slides = banners.map((banner, i) => {
+      const slide = document.createElement("div");
+      slide.className = "banner-carousel__slide" + (i === 0 ? " is-active" : "");
+      slide.setAttribute("role", "group");
+      slide.setAttribute("aria-roledescription", "slide");
+      slide.setAttribute("aria-label", `${i + 1} of ${banners.length}`);
+      slide.hidden = i !== 0;
+
+      const img = document.createElement("img");
+      img.src = banner.src;
+      img.alt = banner.alt || "";
+      img.width = 1024;
+      img.height = 374;
+      img.decoding = "async";
+      if (i > 0) img.loading = "lazy";
+      slide.appendChild(img);
+      track.appendChild(slide);
+
+      const dot = document.createElement("button");
+      dot.type = "button";
+      dot.className = "banner-carousel__dot" + (i === 0 ? " is-active" : "");
+      dot.setAttribute("aria-label", `Show banner ${i + 1}`);
+      dots.appendChild(dot);
+
+      return { slide, dot };
+    });
+
+    root.appendChild(track);
+    root.appendChild(dots);
+
+    let index = 0;
+    let timer = null;
+
+    function goTo(next) {
+      slides[index].slide.classList.remove("is-active");
+      slides[index].slide.hidden = true;
+      slides[index].dot.classList.remove("is-active");
+      index = (next + slides.length) % slides.length;
+      slides[index].slide.classList.add("is-active");
+      slides[index].slide.hidden = false;
+      slides[index].dot.classList.add("is-active");
+    }
+
+    function start() {
+      stop();
+      if (slides.length < 2) return;
+      timer = setInterval(() => goTo(index + 1), bannerRotateMs);
+    }
+
+    function stop() {
+      if (timer) clearInterval(timer);
+      timer = null;
+    }
+
+    slides.forEach(({ dot }, i) => {
+      dot.addEventListener("click", () => {
+        goTo(i);
+        start();
+      });
+    });
+
+    root.addEventListener("mouseenter", stop);
+    root.addEventListener("mouseleave", start);
+    root.addEventListener("focusin", stop);
+    root.addEventListener("focusout", start);
+
+    start();
+  }
+
+  document.querySelectorAll(".js-banner-carousel").forEach(initBannerCarousel);
 
   document.querySelectorAll(".js-join-whatsapp").forEach((el) => {
     if (whatsappGroupUrl) el.href = whatsappGroupUrl;
