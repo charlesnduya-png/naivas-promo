@@ -8,8 +8,8 @@ window.NAIVAS_PROMO = {
   bannerRotateMs: 4000,
   banners: [
     {
-      src: "banner-janta-lottery.png",
-      alt: "Janta.ke Online WhatsApp Lottery — special rewards and weekly draws",
+      src: "banner-soccer-co-ke.png",
+      alt: "Soccer.co.ke — World Cup Fever 2026",
     },
     {
       src: "banner-pilot-ke.png",
@@ -20,8 +20,8 @@ window.NAIVAS_PROMO = {
       alt: "Janta.ke — get up to 100 KES freebet",
     },
     {
-      src: "janta-rewards-banner.png",
-      alt: "Janta.ke rewards — fair random shuffle draws",
+      src: "banner-janta-lottery.png",
+      alt: "Janta.ke Online WhatsApp Lottery — special rewards and weekly draws",
     },
   ],
   rewards: [
